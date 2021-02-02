@@ -47,8 +47,3 @@
  ![](https://boriskrasko.github.io/momentum/pages/momentum-spice.png)
   
  ![](https://boriskrasko.github.io/momentum/pages/momentum-los-angeles.png)
-  
- 
- 
- 
- 
