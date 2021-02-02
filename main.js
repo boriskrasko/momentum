@@ -8,24 +8,24 @@ const updateInterval = 1000
 const daysOfWeek = {
   1: 'Monday',
   2: 'Tuesday',
-  3: 'Wednesday', 
-  4: 'Thursday', 
+  3: 'Wednesday',
+  4: 'Thursday',
   5: 'Friday',
-  6: 'Saturday', 
+  6: 'Saturday',
   0: 'Sunday'
 }
 const numberOfMonth = today.getMonth()
 const monthOfYear = {
   0:  'Jan',
   1:  'Feb',
-  2:  'Mar', 
-  3:  'Apr', 
+  2:  'Mar',
+  3:  'Apr',
   4:  'May',
-  5:  'Jun', 
+  5:  'Jun',
   6:  'Jul',
-  7:  'Aug', 
+  7:  'Aug',
   8:  'Sep',
-  9:  'Oct', 
+  9:  'Oct',
   10: 'Nov',
   11: 'Dec'
 }
@@ -166,22 +166,28 @@ let showGreeting = () => {
   greeting.innerHTML = `Good ${partOfDay},  `
 }
 
-const cleanStorage= () => {
+const cleanStorage = () => {
   selectedTheme = false
   localStorage.clear()
   name.textContent = '[Enter Name]'
   focus.textContent = '[Enter Focus]'
   city.textContent = 'Earth'
   curtainBackground.style.filter = 'blur(10px)'
-  grayOrColorIcon.src = 'svg/brightness.svg'
+  grayOrColorIcon.src = 'svg/contrast.svg'
   document.body.style.overflow = 'hidden'
-  setTimeout(backgroundFilter, 500)
+  setTimeout(backgroundFilter, 500);
+  gradient.classList.remove('active');
+  greeting.classList.remove('gradient-font');
+  name.classList.remove('gradient-font');
+  gradient.querySelector('img').src = 'svg/gradient.svg';
 }
 
-const setGradient= () => {
+const setGradient = () => {
   greeting.classList.toggle('gradient-font');
   name.classList.toggle('gradient-font');
   gradient.classList.toggle('active');
+  const imgSrc = gradient.classList.contains('active') ? 'svg/gradient-active.svg' : 'svg/gradient.svg';
+  gradient.querySelector('img').src = imgSrc;
 }
 
 function clearStoredText() {
@@ -196,16 +202,15 @@ let backgroundFilter = () => {
   setTimeout(function () {
     document.body.style.overflow = 'auto'
   }, 1000)
-
 }
 
 const madeWhiteAndBlack = () => {
   if (curtainBackground.style.filter == 'grayscale(100%)') {
     curtainBackground.style.filter = 'grayscale(0)'
-    grayOrColorIcon.src = 'svg/brightness.svg'
+    grayOrColorIcon.src = 'svg/contrast.svg'
   } else {
     curtainBackground.style.filter = 'grayscale(100%)'
-    grayOrColorIcon.src = 'svg/brightness-gradient.svg'
+    grayOrColorIcon.src = 'svg/contrast-gradient.svg'
   }
 }
 
@@ -416,3 +421,5 @@ getDate()
 getName()
 getFocus()
 getCity()
+
+document.querySelectorAll('img').forEach(icon => icon.setAttribute('draggable', 'false'));
