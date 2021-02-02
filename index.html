@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="utf-8">
+  <title>Momentum</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="owfont-regular.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="header">
+  <button class="arrow-button">&#8249;</button>
+  <div class="time-board">
+    <time datetime="2020-10-24" class="time hxl">09:42:56</time>
+    <time datetime="2020-10-24" class="date">Wednesday 27 Jan. 2021</time>
+  </div>
+  <button class="arrow-button">&#8250;</button>
+</header>
+<main class="main">
+  <div class="greeting-board">
+    <div class="greeting gradient-font">Good morning</div>
+    <div spellcheck="false" contenteditable class="name gradient-font">World!</div>
+  </div>
+  <div class="focus-board">
+    <span class="title">What Is Your Focus For Today?</span>
+    <span spellcheck="false" contenteditable class="focus">FOCUS</span>
+  </div>
+  <div class="weather-board">
+    <table>
+      <tbody>
+        <tr>
+          <td rowspan="3" class="gradient-font weather-icon owf"></td>
+          <td spellcheck="false" contenteditable class="location hxl"></td>
+          <td class="deg temperature gradient-font" rowspan="2"></td>
+        </tr>
+        <tr>
+          <td class="humidity"></td>
+        </tr>
+        <tr>
+          <td class="wind-speed"></td>
+          <td class="gradient-text weather-description"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </main>
+  <div class="settings"><button>&#9881; Settings</button></div>
+  <div class="set-theme">
+   <ul>
+      <li class="set-theme-title gradient-font">Change Theme</li>
+      <li class="variant-set-theme la">LosAngeles2019</li>
+      <li class="variant-set-theme earth">Earth</li>
+      <li class="variant-set-theme valley">MonumentValley</li>
+      <li class="settings-btns">
+        <button class="reset">Reset</button>
+        <button class="gray-or-color-btn"><img class="gray-or-color" src="svg/brightness.svg" alt="gray or color"></button>
+        <button class="close-set-theme close"><img src="svg/001-cancel-3.svg" alt="close" class="close"></button>
+      </li>
+   </ul>
+  </div>
+  <div class="curtain"></div>
+  <script src="preload.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
