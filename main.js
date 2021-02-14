@@ -150,6 +150,7 @@ const humidity = document.querySelector('.humidity')
 const windSpeed = document.querySelector('.wind-speed')
 const reset = document.querySelector('.reset')
 const close = document.querySelector('.close')
+const gradient = document.querySelector('.set-gradient')
 
 let showGreeting = () => {
   let partOfDay = ''
@@ -170,11 +171,23 @@ const cleanStorage= () => {
   localStorage.clear()
   name.textContent = '[Enter Name]'
   focus.textContent = '[Enter Focus]'
-  city.textContent = '[Enter City]'
+  city.textContent = 'Earth'
   curtainBackground.style.filter = 'blur(10px)'
   grayOrColorIcon.src = 'svg/brightness.svg'
   document.body.style.overflow = 'hidden'
   setTimeout(backgroundFilter, 500)
+}
+
+const setGradient= () => {
+  if ($(".greeting").hasClass("gradient-font")) {
+    $(".greeting").removeClass(`gradient-font`);
+    $(".name").removeClass(`gradient-font`);
+    $(".set-gradient").removeClass(`active`);
+  } else {
+    $(".greeting").addClass(`gradient-font`);
+    $(".name").addClass(`gradient-font`);
+    $(".set-gradient").addClass(`active`);
+  }
 }
 
 function clearStoredText() {
@@ -217,7 +230,7 @@ const getEmptyFocus = () => {
 }
 
 const getEmptyCity = () => {
-  if (city.textContent === '[Enter City]')
+  if (city.textContent === 'Earth')
     city.innerHTML = ''
 }
 
@@ -311,7 +324,7 @@ const setFocus = (e) => {
 
 const getCity = () => {
   if (localStorage.getItem('city') === null) {
-    city.textContent = '[Enter City]'
+    city.textContent = 'Earth'
   } else {
     city.textContent = localStorage.getItem('city')
   }
@@ -322,7 +335,7 @@ const setCity = (e) => {
     if (e.which == 13 || e.keyCode == 13) {
       if ( city.textContent == '')
         if(localStorage.getItem('city') === null ) {
-          city.textContent = '[Enter City]'
+          city.textContent = 'Earth'
         } else {
           city.textContent = localStorage.getItem('city')
         }
@@ -332,7 +345,7 @@ const setCity = (e) => {
   } else {
     if ( city.textContent == '')
       if(localStorage.getItem('city') === null ) {
-        city.textContent = '[Enter City]'
+        city.textContent = 'Earth'
       } else {
         city.textContent = localStorage.getItem('city')
       }
@@ -399,6 +412,7 @@ settings.addEventListener('click', openThemeSelection)
 reset.addEventListener('click', cleanStorage)
 grayOrColorIcon.addEventListener('click', madeWhiteAndBlack)
 close.addEventListener('click', closeThemeSelection)
+gradient.addEventListener('click', setGradient)
 
 showCurrentTime()
 getStart()
