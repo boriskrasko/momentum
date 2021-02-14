@@ -3,7 +3,11 @@
     "name": "Momentum",
     "version": "1.0",
     "description": "Momentum Extension by boriskrasko",
-
+    "icons": {
+      "16": "images/icon16.png",
+      "32": "images/icon32.png",
+      "128": "images/icon128.png"
+    },
     "browser_action": {
       "default_title": "Momentum"
     },
