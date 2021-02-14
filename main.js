@@ -150,7 +150,7 @@ const humidity = document.querySelector('.humidity')
 const windSpeed = document.querySelector('.wind-speed')
 const reset = document.querySelector('.reset')
 const close = document.querySelector('.close')
-const gradient = document.querySelector('.set-gradient')
+const gradient = document.querySelector('.gradient')
 
 let showGreeting = () => {
   let partOfDay = ''
@@ -179,15 +179,9 @@ const cleanStorage= () => {
 }
 
 const setGradient= () => {
-  if ($(".greeting").hasClass("gradient-font")) {
-    $(".greeting").removeClass(`gradient-font`);
-    $(".name").removeClass(`gradient-font`);
-    $(".set-gradient").removeClass(`active`);
-  } else {
-    $(".greeting").addClass(`gradient-font`);
-    $(".name").addClass(`gradient-font`);
-    $(".set-gradient").addClass(`active`);
-  }
+  greeting.classList.toggle('gradient-font');
+  name.classList.toggle('gradient-font');
+  gradient.classList.toggle('active');
 }
 
 function clearStoredText() {
