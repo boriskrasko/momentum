@@ -8,6 +8,12 @@
 3. Weather block
 4. Settings
 
+## How to install
+- Clone or download the repoistory
+- Enable developer mode in Chrome Extensions
+- Choose `Load Unpacked` button and locate this repository
+- You are done
+
 
 ## [Deploy](https://boriskrasko.github.io/momentum)
 
