@@ -8,24 +8,24 @@ const updateInterval = 1000
 const daysOfWeek = {
   1: 'Monday',
   2: 'Tuesday',
-  3: 'Wednesday', 
-  4: 'Thursday', 
+  3: 'Wednesday',
+  4: 'Thursday',
   5: 'Friday',
-  6: 'Saturday', 
+  6: 'Saturday',
   0: 'Sunday'
 }
 const numberOfMonth = today.getMonth()
 const monthOfYear = {
   0:  'Jan',
   1:  'Feb',
-  2:  'Mar', 
-  3:  'Apr', 
+  2:  'Mar',
+  3:  'Apr',
   4:  'May',
-  5:  'Jun', 
+  5:  'Jun',
   6:  'Jul',
-  7:  'Aug', 
+  7:  'Aug',
   8:  'Sep',
-  9:  'Oct', 
+  9:  'Oct',
   10: 'Nov',
   11: 'Dec'
 }
@@ -150,6 +150,7 @@ const humidity = document.querySelector('.humidity')
 const windSpeed = document.querySelector('.wind-speed')
 const reset = document.querySelector('.reset')
 const close = document.querySelector('.close')
+const gradient = document.querySelector('.gradient')
 
 let showGreeting = () => {
   let partOfDay = ''
@@ -165,16 +166,22 @@ let showGreeting = () => {
   greeting.innerHTML = `Good ${partOfDay},  `
 }
 
-const cleanStorage= () => {
+const cleanStorage = () => {
   selectedTheme = false
   localStorage.clear()
   name.textContent = '[Enter Name]'
   focus.textContent = '[Enter Focus]'
-  city.textContent = '[Enter City]'
+  city.textContent = 'Earth'
   curtainBackground.style.filter = 'blur(10px)'
   grayOrColorIcon.src = 'svg/brightness.svg'
   document.body.style.overflow = 'hidden'
   setTimeout(backgroundFilter, 500)
+}
+
+const setGradient = () => {
+  greeting.classList.toggle('gradient-font');
+  name.classList.toggle('gradient-font');
+  gradient.classList.toggle('active');
 }
 
 function clearStoredText() {
@@ -217,7 +224,7 @@ const getEmptyFocus = () => {
 }
 
 const getEmptyCity = () => {
-  if (city.textContent === '[Enter City]')
+  if (city.textContent === 'Earth')
     city.innerHTML = ''
 }
 
@@ -311,7 +318,7 @@ const setFocus = (e) => {
 
 const getCity = () => {
   if (localStorage.getItem('city') === null) {
-    city.textContent = '[Enter City]'
+    city.textContent = 'Earth'
   } else {
     city.textContent = localStorage.getItem('city')
   }
@@ -322,7 +329,7 @@ const setCity = (e) => {
     if (e.which == 13 || e.keyCode == 13) {
       if ( city.textContent == '')
         if(localStorage.getItem('city') === null ) {
-          city.textContent = '[Enter City]'
+          city.textContent = 'Earth'
         } else {
           city.textContent = localStorage.getItem('city')
         }
@@ -332,7 +339,7 @@ const setCity = (e) => {
   } else {
     if ( city.textContent == '')
       if(localStorage.getItem('city') === null ) {
-        city.textContent = '[Enter City]'
+        city.textContent = 'Earth'
       } else {
         city.textContent = localStorage.getItem('city')
       }
@@ -399,6 +406,7 @@ settings.addEventListener('click', openThemeSelection)
 reset.addEventListener('click', cleanStorage)
 grayOrColorIcon.addEventListener('click', madeWhiteAndBlack)
 close.addEventListener('click', closeThemeSelection)
+gradient.addEventListener('click', setGradient)
 
 showCurrentTime()
 getStart()
