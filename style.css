@@ -36,10 +36,13 @@ button {
 }
 
 button:hover {
+  opacity: 0.9;
+}
+
+.arrow-button:hover {
   -webkit-transform: scale(0.95);
       -ms-transform: scale(0.95);
           transform: scale(0.95);
-  opacity: 0.9;
 }
 
 .active {
@@ -285,8 +288,14 @@ button:hover {
 }
 
 .settings button {
-  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
   opacity: 1;
+  border-radius: 12px;
+  background-color: #2227;
   -webkit-transform: scale(0.95);
       -ms-transform: scale(0.95);
           transform: scale(0.95);
@@ -364,12 +373,12 @@ button:hover {
   background-size: cover
 }
 
-.reset {
-  font-size: 24px;
-}
-
-.gradient {
-  font-size: 24px;
+.reset img,
+.gradient img,
+.gray-or-color-btn img,
+.close-set-theme img,
+.settings img {
+  width: 28px;
 }
 
 .la {

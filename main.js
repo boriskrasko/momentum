@@ -173,15 +173,21 @@ const cleanStorage = () => {
   focus.textContent = '[Enter Focus]'
   city.textContent = 'Earth'
   curtainBackground.style.filter = 'blur(10px)'
-  grayOrColorIcon.src = 'svg/brightness.svg'
+  grayOrColorIcon.src = 'svg/contrast.svg'
   document.body.style.overflow = 'hidden'
-  setTimeout(backgroundFilter, 500)
+  setTimeout(backgroundFilter, 500);
+  gradient.classList.remove('active');
+  greeting.classList.remove('gradient-font');
+  name.classList.remove('gradient-font');
+  gradient.querySelector('img').src = 'svg/gradient.svg';
 }
 
 const setGradient = () => {
   greeting.classList.toggle('gradient-font');
   name.classList.toggle('gradient-font');
   gradient.classList.toggle('active');
+  const imgSrc = gradient.classList.contains('active') ? 'svg/gradient-active.svg' : 'svg/gradient.svg';
+  gradient.querySelector('img').src = imgSrc;
 }
 
 function clearStoredText() {
@@ -196,16 +202,15 @@ let backgroundFilter = () => {
   setTimeout(function () {
     document.body.style.overflow = 'auto'
   }, 1000)
-
 }
 
 const madeWhiteAndBlack = () => {
   if (curtainBackground.style.filter == 'grayscale(100%)') {
     curtainBackground.style.filter = 'grayscale(0)'
-    grayOrColorIcon.src = 'svg/brightness.svg'
+    grayOrColorIcon.src = 'svg/contrast.svg'
   } else {
     curtainBackground.style.filter = 'grayscale(100%)'
-    grayOrColorIcon.src = 'svg/brightness-gradient.svg'
+    grayOrColorIcon.src = 'svg/contrast-gradient.svg'
   }
 }
 
@@ -416,3 +421,5 @@ getDate()
 getName()
 getFocus()
 getCity()
+
+document.querySelectorAll('img').forEach(icon => icon.setAttribute('draggable', 'false'));
