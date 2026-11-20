@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>Momentum</title>
@@ -8,65 +8,126 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="header">
-  <button class="arrow-button">&#8249;</button>
-  <div class="time-board">
-    <time datetime="2020-10-24" class="time hxl">09:42:56</time>
-    <time datetime="2020-10-24" class="date">Wednesday 27 Jan. 2021</time>
-  </div>
-  <button class="arrow-button">&#8250;</button>
-</header>
-<main class="main">
-  <div class="greeting-board">
-    <div class="greeting">Good morning</div>
-    <div spellcheck="false" contenteditable class="name">World!</div>
-  </div>
-  <div class="focus-board">
-    <span class="title">What Is Your Focus For Today?</span>
-    <span spellcheck="false" contenteditable class="focus">FOCUS</span>
-  </div>
-  <div class="weather-board">
-    <table>
-      <tbody>
-        <tr>
-          <td rowspan="3" class="gradient-font weather-icon owf"></td>
-          <td spellcheck="false" contenteditable class="location hxl"></td>
-          <td class="deg temperature gradient-font" rowspan="2"></td>
-        </tr>
-        <tr>
-          <td class="humidity"></td>
-        </tr>
-        <tr>
-          <td class="wind-speed"></td>
-          <td class="gradient-text weather-description"></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <header class="header">
+    <button type="button" class="arrow-button" aria-label="Previous wallpaper">&#8249;</button>
+    <div class="time-board">
+      <time class="time hxl"></time>
+      <time class="date"></time>
+    </div>
+    <button type="button" class="arrow-button" aria-label="Next wallpaper">&#8250;</button>
+  </header>
+  <main class="main">
+    <div class="greeting-board">
+      <div class="greeting">Good morning</div>
+      <div class="field-editor">
+        <input type="text" class="name" id="user-name" aria-label="Your name"
+          placeholder="Enter Name" autocomplete="given-name" spellcheck="false" enterkeyhint="done">
+        <button type="button" class="edit-field edit-name" aria-label="Edit name"
+          aria-controls="user-name">Edit</button>
+      </div>
+    </div>
+    <div class="focus-board">
+      <span class="title">What Is Your Focus For Today?</span>
+      <div class="field-editor">
+        <textarea class="focus" id="daily-focus" rows="1" aria-label="Today's focus"
+          placeholder="Enter Focus" spellcheck="false" enterkeyhint="done"></textarea>
+        <button type="button" class="edit-field edit-focus" aria-label="Edit focus"
+          aria-controls="daily-focus">Edit</button>
+      </div>
+      <div class="focus-actions" hidden>
+        <span class="focus-status" role="status"></span>
+        <button type="button" class="complete-focus" aria-pressed="false">Mark as done</button>
+      </div>
+      <details class="focus-history" hidden>
+        <summary>Previous focuses</summary>
+        <ul class="focus-history-list"></ul>
+      </details>
+    </div>
+    <div class="weather-board">
+      <table>
+        <tbody>
+          <tr>
+            <td rowspan="2" class="gradient-font weather-icon owf"></td>
+            <td class="location-cell">
+              <div class="city-editor">
+                <input type="text" class="location" id="weather-city" aria-label="Weather city"
+                  placeholder="Enter city" autocomplete="off" spellcheck="false" enterkeyhint="done">
+                <button type="button" class="edit-field edit-city" aria-label="Edit weather city"
+                  aria-controls="weather-city">Edit</button>
+              </div>
+            </td>
+            <td class="deg temperature gradient-font" rowspan="3"></td>
+          </tr>
+          <tr>
+            <td class="humidity"></td>
+          </tr>
+          <tr>
+            <td class="gradient-text weather-description"></td>
+            <td class="wind-speed"></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="weather-status" role="status" aria-live="polite"></p>
+    </div>
   </main>
-  <div class="settings"><button>
-    <img src="svg/setting.svg" alt="">
-  </button></div>
-  <div class="set-theme">
-   <ul>
-      <li class="set-theme-title">Change Theme</li>
-      <li class="variant-set-theme la">LosAngeles2019</li>
-      <li class="variant-set-theme earth">Earth</li>
-      <li class="variant-set-theme valley">MonumentValley</li>
-      <br>
-      <li class="settings-btns">
-        <button class="gradient gray-or-color-btn" title="Gradient">
-          <img src="svg/gradient.svg" alt="">
-        </button>
-        <button class="reset" title="Reset">
-          <img src="svg/reset.svg" alt="">
-        </button>
-        <button class="gray-or-color-btn" title="Contrast"><img class="gray-or-color" src="svg/contrast.svg" alt="gray or color"></button>
-        <button class="close-set-theme close" title="Close"><img src="svg/close.svg" alt="close" class="close"></button>
-      </li>
-   </ul>
+  <div class="settings">
+    <button type="button" aria-label="Open settings" aria-haspopup="dialog"
+      aria-controls="theme-settings" aria-expanded="false">
+      <img src="svg/setting.svg" alt="">
+    </button>
   </div>
-  <div class="curtain"></div>
+  <dialog class="set-theme" id="theme-settings" aria-labelledby="theme-settings-title">
+    <div class="set-theme-panel">
+      <div class="set-theme-heading">
+        <h2 class="set-theme-title" id="theme-settings-title">Change Theme</h2>
+        <button type="button" class="close-set-theme" title="Close"
+          aria-label="Close theme settings">
+          <img src="svg/close.svg" alt="">
+        </button>
+      </div>
+      <div class="set-theme-body">
+        <ul class="theme-options" aria-label="Wallpaper themes">
+          <li>
+            <button type="button" class="variant-set-theme la"
+              data-theme="24hr-LosAngeles2019-5K" aria-pressed="false">
+              <span class="theme-name">LosAngeles2019</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="variant-set-theme earth"
+              data-theme="24hr-Earth-5K" aria-pressed="false">
+              <span class="theme-name">Earth</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="variant-set-theme valley"
+              data-theme="24hr-MonumentValley-5K" aria-pressed="false">
+              <span class="theme-name">MonumentValley</span>
+            </button>
+          </li>
+        </ul>
+        <div class="settings-btns">
+          <label class="theme-toggle">
+            <span>Gradient</span>
+            <input type="checkbox" class="gradient" role="switch">
+            <span class="theme-toggle-slider" aria-hidden="true"></span>
+          </label>
+          <label class="theme-toggle">
+            <span>Black &amp; white</span>
+            <input type="checkbox" class="gray-or-color" role="switch">
+            <span class="theme-toggle-slider" aria-hidden="true"></span>
+          </label>
+          <button type="button" class="reset" title="Reset wallpaper and effects">Reset</button>
+          <details class="personal-data-settings">
+            <summary>Personal data</summary>
+            <button type="button" class="clear-personal-data">Clear data</button>
+            <p class="personal-data-status settings-note" role="status"></p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </dialog>
+  <div class="curtain" aria-hidden="true"></div>
   <script src="preload.js"></script>
   <script src="main.js"></script>
 </body>

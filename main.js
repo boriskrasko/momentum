@@ -1,425 +1,623 @@
-let today = new Date()
-let currentHours = today.getHours()
-let currentMinutes = today.getMinutes()
-let currentSeconds = today.getSeconds()
-const dayOfMonth = today.getDate()
-const numberDayOfWeek = today.getDay()
-const updateInterval = 1000
-const daysOfWeek = {
-  1: 'Monday',
-  2: 'Tuesday',
-  3: 'Wednesday',
-  4: 'Thursday',
-  5: 'Friday',
-  6: 'Saturday',
-  0: 'Sunday'
-}
-const numberOfMonth = today.getMonth()
-const monthOfYear = {
-  0:  'Jan',
-  1:  'Feb',
-  2:  'Mar',
-  3:  'Apr',
-  4:  'May',
-  5:  'Jun',
-  6:  'Jul',
-  7:  'Aug',
-  8:  'Sep',
-  9:  'Oct',
-  10: 'Nov',
-  11: 'Dec'
-}
-const currentYear = Math.floor(today.getYear() + 1900)
-const currentDayOfTheWeek = daysOfWeek[numberDayOfWeek]
-const currentMonthOfYear = monthOfYear[numberOfMonth]
 const currentTime = document.querySelector('.time')
 const currentDate = document.querySelector('.date')
-
-const showCurrentTime = () => {
-  today = new Date()
-  currentHours = today.getHours()
-  currentMinutes = today.getMinutes()
-  currentSeconds = today.getSeconds()
-  currentTime.innerHTML = `${currentHours}:${addZero(currentMinutes)}:${addZero(currentSeconds)}`
-  if (currentMinutes === 0 && currentSeconds === 0) showGreeting()
-  if (currentHours === 0 && currentMinutes === 0 && currentSeconds === 0) setNextBackgrounImage()
-  if (currentHours % 3 === 0 && currentMinutes === 0 && currentSeconds === 0) setNextBackgrounImage()
-  if (currentHours % 2 !== 0 && currentMinutes === 30 && currentSeconds === 0) setNextBackgrounImage()
-  if (currentHours % 2 == 0 && currentMinutes === 0 && currentSeconds === 0) {
-    if (currentTheme !== '24hr-Earth-5K') curtainBackground.style.opacity = '0.5'
-  }
-  setTimeout(showCurrentTime, `${updateInterval}`)
-}
-
-const getDate = () => {
-  currentDate.innerHTML = `${currentDayOfTheWeek} ${dayOfMonth} ${currentMonthOfYear}. ${currentYear}`
-}
-
-let addZero = (n) => {
-  return (parseInt(n, 10) < 10 ? '0' : '') + n
-}
-
-let currentNumberBackgrounImage = Math.round(currentHours/1.5)
-const arrowButton = document.querySelectorAll('.arrow-button')
-let curtainBackground = document.querySelector('.curtain')
-const theme = localStorage.getItem('theme')
-let variantOfTheme = document.querySelectorAll('.variant-set-theme');
-let selectedTheme = localStorage.getItem('selected')
-const settings = document.querySelector('.settings')
-
-const backgroundTheme = {
-  1: '24hr-LosAngeles2019-5K',
-  2: '24hr-Earth-5K',
-  3: '24hr-MonumentValley-5K'
-}
-let currentTheme = (theme === null) ? '24hr-MonumentValley-5K' : localStorage.getItem('theme')
-
- const getStart = () => {
-   setTimeout(() => {
-    document.body.style.backgroundImage = `url(images/${currentTheme}-${currentNumberBackgrounImage + 1 }.jpg)`
-   }, 2400)
-   curtainBackground.style.backgroundImage = `url(images/${currentTheme}-${currentNumberBackgrounImage}.jpg)`;
- }
-
-const changeBackground = () => {
-  document.body.style.backgroundImage = `url(images/${currentTheme}-${currentNumberBackgrounImage + 2 }.jpg)`
-  curtainBackground.style.backgroundImage = `url(images/${currentTheme}-${currentNumberBackgrounImage}.jpg)`
-  curtainBackground.style.transition = '0.4s all'
-  localStorage.setItem('theme', `${currentTheme}`)
-  localStorage.setItem('selected', `${selectedTheme }`)
-}
-
-const setPrevBackgrounImage = () => {
-  (currentNumberBackgrounImage !== 0) ? currentNumberBackgrounImage-- : currentNumberBackgrounImage = 15
-  changeBackground()
-}
-
-let setNextBackgrounImage = () => {
-  (currentNumberBackgrounImage <= 14) ? currentNumberBackgrounImage++ : currentNumberBackgrounImage = 0
-  changeBackground()
-}
-
-const setThemeContainer = document.querySelector('.set-theme')
-
-const setThemeLA = () => {
-  currentTheme = '24hr-LosAngeles2019-5K'
-  selectedTheme = true
-  changeBackground()
-}
-
-const setThemeEarth = () => {
-  currentTheme = '24hr-Earth-5K'
-  selectedTheme = true
-  changeBackground()
-}
-
-const setThemeMonumentValley = () => {
-  currentTheme = '24hr-MonumentValley-5K'
-  selectedTheme = true
-  changeBackground()
-}
-
-const closeThemeSelection = () => {
-  setThemeContainer.style.transition = '0.2s all';
-  setThemeContainer.style.transform = 'translateY(200px)';
-  setThemeContainer.style.opacity = '0';
-  setTimeout(()=> {
-    setThemeContainer.style.display = 'none';
-  }, 250)
-}
-
-const openThemeSelection = () => {
-  setThemeContainer.style.display = 'block'
-  setThemeContainer.style.opacity = '1';
-  setThemeContainer.style.transform = 'translateY(0)';
-}
-
 const greeting = document.querySelector('.greeting')
-const name = document.querySelector('.name')
-const previousName = localStorage.getItem('name')
-const focus = document.querySelector('.focus')
-const previousFocus = localStorage.getItem('focus')
-const mainContent = document.querySelector('.main')
-const grayOrColorIcon = document.querySelector('.gray-or-color')
+const nameField = document.querySelector('.name')
+const focusField = document.querySelector('.focus')
+const editName = document.querySelector('.edit-name')
+const editFocus = document.querySelector('.edit-focus')
+const focusBoard = document.querySelector('.focus-board')
+const focusActions = document.querySelector('.focus-actions')
+const focusStatus = document.querySelector('.focus-status')
+const completeFocus = document.querySelector('.complete-focus')
+const focusHistory = document.querySelector('.focus-history')
+const focusHistoryList = document.querySelector('.focus-history-list')
+const cityField = document.querySelector('.location')
+const editCity = document.querySelector('.edit-city')
+const weatherIcon = document.querySelector('.weather-icon')
 const temperature = document.querySelector('.temperature')
 const weatherDescription = document.querySelector('.weather-description')
-const weatherSettings = document.querySelector('.weather-settings')
-const weatherIcon = document.querySelector('.weather-icon')
-const city = document.querySelector('.location')
 const humidity = document.querySelector('.humidity')
 const windSpeed = document.querySelector('.wind-speed')
-const reset = document.querySelector('.reset')
-const close = document.querySelector('.close')
+const weatherStatus = document.querySelector('.weather-status')
+const curtainBackground = document.querySelector('.curtain')
+const arrowButtons = document.querySelectorAll('.arrow-button')
+const themeButtons = Array.from(document.querySelectorAll('.variant-set-theme'))
+const themeDialog = document.querySelector('.set-theme')
+const settingsButton = document.querySelector('.settings button')
+const closeSettings = document.querySelector('.close-set-theme')
 const gradient = document.querySelector('.gradient')
+const blackAndWhite = document.querySelector('.gray-or-color')
+const resetButton = document.querySelector('.reset')
+const clearDataButton = document.querySelector('.clear-personal-data')
+const personalDataStatus = document.querySelector('.personal-data-status')
 
-let showGreeting = () => {
-  let partOfDay = ''
-  if ( currentHours < 12 && currentHours > 5) {
-    partOfDay = 'Morning'
-  } else if (currentHours < 18 && currentHours > 11) {
-    partOfDay= 'Afternoon'
-  } else if (currentHours < 24 && currentHours > 17){
-    partOfDay = 'Evening'
-  } else {
-    partOfDay = 'Night'
-  }
-  greeting.innerHTML = `Good ${partOfDay},  `
-}
+const defaultTheme = '24hr-MonumentValley-5K'
+const wallpaperCount = 16
+const weatherInterval = 15 * 60 * 1000
+const themes = themeButtons.map(button => button.dataset.theme)
+let currentTheme = themes.includes(localStorage.getItem('theme'))
+  ? localStorage.getItem('theme') : defaultTheme
+let currentWallpaper = 0
+let lastBackgroundSlot = ''
+let lastDate = ''
+let weatherController = null
+let weatherRequest = 0
+let pendingWeatherCity = ''
+let displayedBackground = ''
+let requestedBackground = ''
+let requestedBackgroundTiming = 'ease-in-out'
+let loadingBackground = ''
+let backgroundLoad = 0
+const backgroundLayers = []
+const decodedBackgrounds = new Map()
+const warmingBackgrounds = new Set()
 
-const cleanStorage = () => {
-  selectedTheme = false
-  localStorage.clear()
-  name.textContent = '[Enter Name]'
-  focus.textContent = '[Enter Focus]'
-  city.textContent = 'Earth'
-  curtainBackground.style.filter = 'blur(10px)'
-  grayOrColorIcon.src = 'svg/contrast.svg'
-  document.body.style.overflow = 'hidden'
-  setTimeout(backgroundFilter, 500);
-  gradient.classList.remove('active');
-  greeting.classList.remove('gradient-font');
-  name.classList.remove('gradient-font');
-  gradient.querySelector('img').src = 'svg/gradient.svg';
-}
+const pad = value => String(value).padStart(2, '0')
+const localDate = date => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+const backgroundSlot = date => Math.floor((date.getHours() * 60 + date.getMinutes()) / 90)
+const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+  weekday: 'long', day: 'numeric', month: 'short', year: 'numeric'
+})
+const weatherTimeFormatter = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+})
 
-const setGradient = () => {
-  greeting.classList.toggle('gradient-font');
-  name.classList.toggle('gradient-font');
-  gradient.classList.toggle('active');
-  const imgSrc = gradient.classList.contains('active') ? 'svg/gradient-active.svg' : 'svg/gradient.svg';
-  gradient.querySelector('img').src = imgSrc;
-}
-
-function clearStoredText() {
-  const entry = this.textContent
-  if (entry === '') this.textContent = localStorage.getItem(this.id)
-  else localStorage.setItem(this.id, this.textContent)
-}
-
-let backgroundFilter = () => {
-  curtainBackground.style.filter = 'blur(0)'
-  mainContent.style.filter = 'grayscale(0)'
-  setTimeout(function () {
-    document.body.style.overflow = 'auto'
-  }, 1000)
-}
-
-const madeWhiteAndBlack = () => {
-  if (curtainBackground.style.filter == 'grayscale(100%)') {
-    curtainBackground.style.filter = 'grayscale(0)'
-    grayOrColorIcon.src = 'svg/contrast.svg'
-  } else {
-    curtainBackground.style.filter = 'grayscale(100%)'
-    grayOrColorIcon.src = 'svg/contrast-gradient.svg'
+function readJSON(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key))
+  } catch {
+    return null
   }
 }
 
-const getEmptyName = () => {
-  if (name.textContent === '[Enter Name]')
-    name.innerHTML = ''
-  if (name.textContent !=='[Enter Name]')
-    name.innerHTML = ''
+function storeText(key, value) {
+  if (value) localStorage.setItem(key, value)
+  else localStorage.removeItem(key)
 }
 
-const getEmptyFocus = () => {
-  if (focus.textContent === '[Enter Focus]')
-    focus.innerHTML = ''
-  if (focus.textContent !=='[Enter Focus]')
-    focus.innerHTML = ''
+function readEditable(field, multiline = false) {
+  const text = field.value.replace(/\r\n?/g, '\n').replace(/\u00a0/g, ' ')
+  return (multiline ? text : text.replace(/\n+/g, ' ')).trim()
 }
 
-const getEmptyCity = () => {
-  if (city.textContent === 'Earth')
-    city.innerHTML = ''
+function writeEditable(field, value) {
+  field.value = value
+  if (field === focusField) resizeFocus()
 }
 
-const getName = () => {
-  if (localStorage.getItem('name') === null) {
-    name.textContent = '[Enter Name]'
-  } else {
-    name.textContent = localStorage.getItem('name')
+function resizeFocus() {
+  const scrollTop = focusField.scrollTop
+  focusField.style.height = 'auto'
+  const borderHeight = focusField.offsetHeight - focusField.clientHeight
+  focusField.style.height = `${focusField.scrollHeight + borderHeight}px`
+  focusField.scrollTop = scrollTop
+}
+
+function setupEditable(field, key, options = {}) {
+  let snapshot = null
+  let cancelling = false
+  const save = () => {
+    const previous = localStorage.getItem(key) || ''
+    const value = readEditable(field, options.multiline)
+    storeText(key, value)
+    if (options.onSave) options.onSave(value, previous)
+    return value
   }
-}
 
-const setName = (e) => {
-  if (e.type === 'keypress') {
-    if (e.which == 13 || e.keyCode == 13) {
-      if (name.textContent == '' && localStorage.getItem('name') === null) {
-        name.textContent = '[Enter Name]'
-        localStorage.setItem('name', e.target.innerText)
-      } else if (name.textContent == '' && previousName === '[Enter Name]') {
-        name.textContent = '[Enter Name]'
-      } else if (name.textContent !== '' && previousName === '[Enter Name]') {
-        localStorage.setItem('name', name.textContent)
-        name.textContent = name.textContent
-      } else if (name.textContent == '' && previousName !== '[Enter Name]') {
-        name.textContent = localStorage.getItem('name')
-      } else if (name.textContent !== '' && previousName !== '[Enter Name]') {
-        localStorage.setItem('name', name.textContent)
-        name.textContent = localStorage.getItem('name')
-      }
-      localStorage.setItem('name', e.target.innerText)
-      name.blur()
+  field.addEventListener('focus', () => {
+    snapshot = {
+      text: readEditable(field, options.multiline),
+      stored: localStorage.getItem(key),
+      extra: options.capture ? options.capture() : null
     }
-  } else if (name.textContent == '' && localStorage.getItem('name') === null) {
-    name.textContent = '[Enter Name]'
-    localStorage.setItem('name', e.target.innerText)
-  } else if (name.textContent == '' && previousName === '[Enter Name]') {
-    name.textContent = '[Enter Name]'
-  } else if (name.textContent !== '' && previousName === '[Enter Name]') {
-    localStorage.setItem('name', name.textContent)
-    name.textContent = name.textContent
-  } else if (name.textContent == '' && previousName !== '[Enter Name]') {
-    name.textContent = localStorage.getItem('name')
-  } else if (name.textContent !== '' && previousName !== '[Enter Name]') {
-    localStorage.setItem('name', name.textContent)
-    name.textContent = localStorage.getItem('name')
-  }
-}
-
-const getFocus = () => {
-  if (localStorage.getItem('focus') === null) {
-    focus.textContent = '[Enter Focus]'
-  } else {
-    focus.textContent = localStorage.getItem('focus')
-  }
-}
-
-const setFocus = (e) => {
-  if (e.type === 'keypress') {
-    if (e.which == 13 || e.keyCode == 13) {
-      if (focus.textContent == '' && localStorage.getItem('focus') === null) {
-        focus.textContent = '[Enter Focus]'
-        localStorage.setItem('focus', e.target.innerText)
-      } else if (focus.textContent == '' && previousFocus === '[Enter Focus]') {
-        focus.textContent = '[Enter Focus]'
-      } else if (focus.textContent !== '' && previousFocus === '[Enter Focus]') {
-        localStorage.setItem('focus', focus.textContent)
-        focus.textContent = focus.textContent
-      } else if (focus.textContent == '' && previousFocus !== '[Enter Focus]') {
-        focus.textContent = localStorage.getItem('focus')
-      } else if (focus.textContent !== '' && previousFocus !== '[Enter Focus]') {
-        localStorage.setItem('focus', focus.textContent)
-        focus.textContent = localStorage.getItem('focus')
+  })
+  field.addEventListener('input', save)
+  field.addEventListener('blur', () => {
+    if (cancelling) return
+    writeEditable(field, save())
+    field.scrollTop = 0
+    if (options.onCommit) options.onCommit()
+  })
+  field.addEventListener('keydown', event => {
+    if (event.isComposing) return
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      event.stopPropagation()
+      if (snapshot) {
+        writeEditable(field, snapshot.text)
+        storeText(key, snapshot.stored)
+        if (options.restore) options.restore(snapshot.extra)
       }
-      localStorage.setItem('focus', e.target.innerText)
-      focus.blur()
+      cancelling = true
+      field.blur()
+      cancelling = false
+    } else if (event.key === 'Enter' && !(options.multiline && event.shiftKey)) {
+      event.preventDefault()
+      field.blur()
     }
-  } else if (focus.textContent == '' && localStorage.getItem('focus') === null) {
-    focus.textContent = '[Enter Focus]'
-    localStorage.setItem('focus', e.target.innerText)
-  } else if (focus.textContent == '' && previousFocus === '[Enter Focus]') {
-    focus.textContent = '[Enter Focus]'
-  } else if (focus.textContent !== '' && previousFocus === '[Enter Focus]') {
-    localStorage.setItem('focus', focus.textContent)
-    focus.textContent = focus.textContent
-  } else if (focus.textContent == '' && previousFocus !== '[Enter Focus]') {
-    focus.textContent = localStorage.getItem('focus')
-  } else if (focus.textContent !== '' && previousFocus !== '[Enter Focus]') {
-    localStorage.setItem('focus', focus.textContent)
-    focus.textContent = localStorage.getItem('focus')
+  })
+}
+
+function readFocusHistory() {
+  const history = readJSON('focusHistory')
+  if (!Array.isArray(history)) return []
+  return history.filter(entry => entry && typeof entry.text === 'string'
+    && entry.text.trim() && typeof entry.date === 'string'
+    && /^\d{4}-\d{2}-\d{2}$/.test(entry.date)
+    && !Number.isNaN(new Date(`${entry.date}T12:00:00`).getTime()))
+}
+
+function renderFocusHistory() {
+  const history = readFocusHistory().slice(-30).reverse()
+  focusHistory.hidden = history.length === 0
+  focusHistoryList.replaceChildren()
+  history.forEach(entry => {
+    const item = document.createElement('li')
+    const date = document.createElement('span')
+    date.className = 'focus-history-date'
+    date.textContent = dateFormatter.format(new Date(`${entry.date}T12:00:00`))
+    const text = document.createElement('p')
+    text.textContent = entry.text
+    const status = document.createElement('span')
+    status.className = 'focus-history-status'
+    status.textContent = entry.completed ? 'Completed' : 'Not completed'
+    item.append(date, text, status)
+    focusHistoryList.append(item)
+  })
+}
+
+function renderFocusState() {
+  const hasFocus = Boolean(localStorage.getItem('focus'))
+  const completed = hasFocus && localStorage.getItem('focusCompleted') === 'true'
+  focusBoard.classList.toggle('is-completed', completed)
+  focusActions.hidden = !hasFocus
+  completeFocus.disabled = !hasFocus
+  completeFocus.setAttribute('aria-pressed', String(completed))
+  completeFocus.textContent = completed ? 'Undo' : 'Mark as done'
+  focusStatus.textContent = completed ? 'Completed for today' : ''
+}
+
+function syncDailyFocus(now) {
+  const today = localDate(now)
+  const previousDate = localStorage.getItem('focusDate')
+  if (previousDate && previousDate !== today) {
+    if (document.activeElement === focusField) focusField.blur()
+    const text = localStorage.getItem('focus')
+    if (text) {
+      const history = readFocusHistory().filter(entry => entry.date !== previousDate)
+      history.push({
+        date: previousDate,
+        text,
+        completed: localStorage.getItem('focusCompleted') === 'true'
+      })
+      localStorage.setItem('focusHistory', JSON.stringify(history.slice(-30)))
+    }
+    localStorage.removeItem('focus')
+    localStorage.removeItem('focusCompleted')
+    writeEditable(focusField, '')
+    focusField.scrollTop = 0
+    renderFocusHistory()
+    renderFocusState()
+  }
+  localStorage.setItem('focusDate', today)
+}
+
+function rememberBackground(source, image) {
+  decodedBackgrounds.set(source, image)
+  if (decodedBackgrounds.size > themes.length) {
+    decodedBackgrounds.delete(decodedBackgrounds.keys().next().value)
   }
 }
 
-const getCity = () => {
-  if (localStorage.getItem('city') === null) {
-    city.textContent = 'Earth'
-  } else {
-    city.textContent = localStorage.getItem('city')
-  }
-}
-
-const setCity = (e) => {
-  if (e.type === 'keypress') {
-    if (e.which == 13 || e.keyCode == 13) {
-      if ( city.textContent == '')
-        if(localStorage.getItem('city') === null ) {
-          city.textContent = 'Earth'
-        } else {
-          city.textContent = localStorage.getItem('city')
-        }
-      localStorage.setItem('city', e.target.innerText)
-      city.blur()
-    }
-  } else {
-    if ( city.textContent == '')
-      if(localStorage.getItem('city') === null ) {
-        city.textContent = 'Earth'
-      } else {
-        city.textContent = localStorage.getItem('city')
+function warmThemeBackgrounds() {
+  themes.forEach(theme => {
+    const source = `images/${theme}-${currentWallpaper}.jpg`
+    if (decodedBackgrounds.has(source) || warmingBackgrounds.has(source)) return
+    warmingBackgrounds.add(source)
+    const image = new Image()
+    image.onerror = () => warmingBackgrounds.delete(source)
+    image.onload = async () => {
+      try {
+        await image.decode()
+        rememberBackground(source, image)
+      } catch {
+        // A failed preview can be loaded again when the user selects its theme.
+      } finally {
+        warmingBackgrounds.delete(source)
       }
-    localStorage.setItem('city', e.target.innerText)
-  }
-  getWeather()
+    }
+    image.src = source
+  })
 }
-async function getWeather() {
-  const link = localStorage.getItem('city')
-  if (link !== null) {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${link}&lang=en&appid=a57c9f6933ed7c0b00fde3258e699267&units=metric`
+
+function loadNextBackground() {
+  const source = requestedBackground
+  const latestLayer = backgroundLayers[backgroundLayers.length - 1]
+  if (source === (latestLayer ? latestLayer.source : displayedBackground)) {
+    backgroundLoad++
+    loadingBackground = ''
+    return
+  }
+  if (source === loadingBackground) return
+  const request = ++backgroundLoad
+  loadingBackground = source
+  if (decodedBackgrounds.has(source)) {
+    loadingBackground = ''
+    startBackgroundTransition(source, requestedBackgroundTiming)
+    return
+  }
+  const image = new Image()
+  const failed = () => {
+    if (request === backgroundLoad) loadingBackground = ''
+  }
+  image.onerror = failed
+  image.onload = async () => {
     try {
-      const res = await fetch(url)
-      const data = await res.json()
-      weatherIcon.innerHTML = ''
-      weatherIcon.classList.add(`owf-${data.weather[0].id}`)
-      weatherIcon.classList.add(`gradient-font`)
-      temperature.textContent = `${Math.round(data.main.temp)}°C`
-      temperature.style.fontWeight = '300'
-      humidity.textContent = `Humidity: ${data.main.humidity}%`
-      windSpeed.textContent = `Wind Speed: ${data.wind.speed}m/s`
-      windSpeed.style.color = '#fff';
-      weatherDescription.textContent = data.weather[0].description
+      await image.decode()
     } catch {
-      weatherIcon.innerHTML = '<img src="svg/overcast-gradient.svg">'
-      weatherIcon.className = "owf"
-      weatherDescription.textContent = ':('
-      humidity.textContent = ''
-      windSpeed.textContent = 'Connection error'
-      windSpeed.style.color = '#fa7'
-      temperature.textContent = '--°C'
+      failed()
+      return
     }
-
-  } else {
-    weatherIcon.innerHTML = '<img src="svg/overcast-gradient.svg">'
-    weatherDescription.innerHTML = ''
-    humidity.textContent = 'Enter your location to get started'
-    windSpeed.textContent = ''
-    temperature.textContent = '--°C'
+    if (request !== backgroundLoad) return
+    loadingBackground = ''
+    rememberBackground(source, image)
+    startBackgroundTransition(source, requestedBackgroundTiming)
   }
-};
-
-for (let i = 0; i < arrowButton.length; i++) {
-  arrowButton[0].addEventListener('click', setPrevBackgrounImage);
-  arrowButton[1].addEventListener('click', setNextBackgrounImage);
+  image.src = source
 }
 
-for (let i = 0; i < variantOfTheme.length; i++) {
-  variantOfTheme[0].addEventListener('click', setThemeLA);
-  variantOfTheme[1].addEventListener('click', setThemeEarth);
-  variantOfTheme[2].addEventListener('click', setThemeMonumentValley);
+function startBackgroundTransition(source, timing) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    backgroundLayers.splice(0).forEach(layer => {
+      clearTimeout(layer.timer)
+      layer.element.remove()
+    })
+    displayedBackground = source
+    curtainBackground.style.backgroundImage = `url(${source})`
+    return
+  }
+  const element = document.createElement('div')
+  element.className = 'curtain-next'
+  element.style.opacity = '0'
+  element.style.backgroundImage = `url(${source})`
+  curtainBackground.append(element)
+  // Commit the hidden image before starting its opacity transition.
+  void element.offsetWidth
+  element.style.transition = `opacity 1000ms ${timing}`
+  element.style.opacity = '1'
+  const layer = { element, source, timer: null }
+  backgroundLayers.push(layer)
+  layer.timer = setTimeout(() => {
+    const index = backgroundLayers.indexOf(layer)
+    if (index === -1) return
+    displayedBackground = source
+    curtainBackground.style.backgroundImage = `url(${source})`
+    // Fully opaque images can replace every older layer without changing the visible frame.
+    backgroundLayers.splice(0, index + 1).forEach(previous => {
+      clearTimeout(previous.timer)
+      previous.element.remove()
+    })
+  }, 1050)
 }
 
-name.addEventListener('click', getEmptyName)
-name.addEventListener('keypress', setName)
-name.addEventListener('blur', setName)
-focus.addEventListener('keypress', setFocus)
-focus.addEventListener('blur', setFocus)
-focus.addEventListener('click', getEmptyFocus)
-city.addEventListener('keypress', setCity)
-city.addEventListener('blur', setCity)
-city.addEventListener('click', getEmptyCity)
-settings.addEventListener('click', openThemeSelection)
-reset.addEventListener('click', cleanStorage)
-grayOrColorIcon.addEventListener('click', madeWhiteAndBlack)
-close.addEventListener('click', closeThemeSelection)
-gradient.addEventListener('click', setGradient)
+function renderBackground({ quick = false } = {}) {
+  const source = `images/${currentTheme}-${currentWallpaper}.jpg`
+  requestedBackground = source
+  requestedBackgroundTiming = quick ? 'ease-out' : 'ease-in-out'
+  if (!displayedBackground) {
+    displayedBackground = source
+    curtainBackground.style.backgroundImage = `url(${source})`
+  } else {
+    loadNextBackground()
+  }
+  themeButtons.forEach(button => {
+    const selected = button.dataset.theme === currentTheme
+    button.classList.toggle('is-selected', selected)
+    button.setAttribute('aria-pressed', String(selected))
+  })
+}
 
-showCurrentTime()
-getStart()
-showGreeting()
-getWeather()
-getDate()
-getName()
-getFocus()
-getCity()
+function renderEffects() {
+  greeting.classList.toggle('gradient-font', gradient.checked)
+  nameField.classList.toggle('gradient-font', gradient.checked)
+  const grayscale = blackAndWhite.checked ? '100%' : '0'
+  curtainBackground.style.setProperty('--background-grayscale', grayscale)
+  curtainBackground.style.filter = `grayscale(${grayscale})`
+}
 
-document.querySelectorAll('img').forEach(icon => icon.setAttribute('draggable', 'false'));
+function syncClock(restoreBackground = false) {
+  const now = new Date()
+  const date = localDate(now)
+  const hour = now.getHours()
+  currentTime.textContent = `${hour}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
+  currentTime.dateTime = `${pad(hour)}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
+  if (date !== lastDate) {
+    currentDate.textContent = dateFormatter.format(now)
+    currentDate.dateTime = date
+    syncDailyFocus(now)
+    lastDate = date
+  }
+  const partOfDay = hour >= 6 && hour < 12 ? 'Morning'
+    : hour >= 12 && hour < 18 ? 'Afternoon'
+    : hour >= 18 ? 'Evening' : 'Night'
+  greeting.textContent = `Good ${partOfDay},`
+  const slot = `${date}:${backgroundSlot(now)}`
+  if (restoreBackground || slot !== lastBackgroundSlot) {
+    currentWallpaper = backgroundSlot(now)
+    lastBackgroundSlot = slot
+    renderBackground()
+  }
+}
+
+function openThemeSelection() {
+  if (themeDialog.open) return
+  document.body.classList.add('theme-settings-open')
+  settingsButton.setAttribute('aria-expanded', 'true')
+  themeDialog.showModal()
+  closeSettings.focus()
+  warmThemeBackgrounds()
+}
+
+function closeThemeSelection() {
+  if (themeDialog.open) themeDialog.close()
+}
+
+function resetAppearance() {
+  for (const key of ['theme', 'selected', 'gradient', 'blackAndWhite']) {
+    localStorage.removeItem(key)
+  }
+  currentTheme = defaultTheme
+  currentWallpaper = backgroundSlot(new Date())
+  gradient.checked = false
+  blackAndWhite.checked = false
+  renderEffects()
+  renderBackground()
+}
+
+function weatherCity() {
+  return (localStorage.getItem('city') || '').trim()
+}
+
+function sameCity(first, second) {
+  return first.toLocaleLowerCase() === second.toLocaleLowerCase()
+}
+
+function validWeather(entry) {
+  return entry && typeof entry.city === 'string' && Number.isFinite(entry.updatedAt)
+    && Number.isFinite(entry.temperature) && Number.isFinite(entry.humidity)
+    && Number.isFinite(entry.wind) && Number.isInteger(entry.icon)
+    && entry.icon >= 200 && entry.icon <= 804 && typeof entry.description === 'string'
+}
+
+function cachedWeather(city) {
+  const cache = readJSON('weatherCache')
+  return validWeather(cache) && sameCity(cache.city, city) ? cache : null
+}
+
+function renderWeather(entry, message = '') {
+  weatherIcon.className = 'weather-icon owf gradient-font'
+  weatherIcon.classList.add(`owf-${entry.icon}`)
+  weatherIcon.replaceChildren()
+  temperature.textContent = `${Math.round(entry.temperature)}°C`
+  humidity.textContent = `Humidity: ${entry.humidity}%`
+  windSpeed.textContent = `Wind Speed: ${entry.wind}m/s`
+  weatherDescription.textContent = entry.description
+  const updated = `Updated ${weatherTimeFormatter.format(new Date(entry.updatedAt))}`
+  weatherStatus.textContent = message ? `${message} · ${updated}` : updated
+}
+
+function renderEmptyWeather(message = '') {
+  weatherIcon.className = 'weather-icon owf'
+  const icon = document.createElement('img')
+  icon.src = 'svg/overcast-gradient.svg'
+  icon.alt = ''
+  weatherIcon.replaceChildren(icon)
+  temperature.textContent = '--°C'
+  humidity.textContent = weatherCity() ? '' : 'Enter your location to get started'
+  windSpeed.textContent = ''
+  weatherDescription.textContent = ''
+  weatherStatus.textContent = message
+}
+
+function cancelWeatherRequest() {
+  weatherRequest++
+  if (weatherController) weatherController.abort()
+  weatherController = null
+  pendingWeatherCity = ''
+}
+
+async function refreshWeather({ force = false } = {}) {
+  const city = weatherCity()
+  if (!city) {
+    cancelWeatherRequest()
+    renderEmptyWeather()
+    return
+  }
+  if (document.activeElement === cityField) return
+  const cache = cachedWeather(city)
+  const offline = navigator.onLine === false
+  if (cache) renderWeather(cache, offline ? 'Offline' : '')
+  else renderEmptyWeather()
+  if (offline) {
+    cancelWeatherRequest()
+    if (!cache) renderEmptyWeather('Offline · Weather unavailable')
+    return
+  }
+  const age = cache ? Date.now() - cache.updatedAt : Infinity
+  if (!force && age >= 0 && age < weatherInterval) return
+  if (sameCity(pendingWeatherCity, city)) {
+    weatherStatus.textContent = 'Updating weather…'
+    return
+  }
+  cancelWeatherRequest()
+  const request = weatherRequest
+  const controller = new AbortController()
+  weatherController = controller
+  pendingWeatherCity = city
+  weatherStatus.textContent = 'Updating weather…'
+  const timeout = setTimeout(() => controller.abort(), 12000)
+  const query = new URLSearchParams({
+    q: city, lang: 'en', units: 'metric', appid: 'a57c9f6933ed7c0b00fde3258e699267'
+  })
+  try {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?${query}`, {
+      signal: controller.signal
+    })
+    if (!response.ok) {
+      throw new Error(response.status === 404 ? 'City not found. Check the name.' : 'Weather unavailable')
+    }
+    const data = await response.json()
+    const entry = {
+      city, updatedAt: Date.now(), temperature: data.main?.temp,
+      humidity: data.main?.humidity, wind: data.wind?.speed,
+      icon: data.weather?.[0]?.id, description: data.weather?.[0]?.description
+    }
+    if (!validWeather(entry)) throw new Error('Weather unavailable')
+    if (request !== weatherRequest || !sameCity(city, weatherCity())) return
+    localStorage.setItem('weatherCache', JSON.stringify(entry))
+    renderWeather(entry)
+  } catch (error) {
+    if (request !== weatherRequest || !sameCity(city, weatherCity())) return
+    if (cache) renderWeather(cache, navigator.onLine === false ? 'Offline' : 'Could not refresh')
+    else renderEmptyWeather(error.message === 'City not found. Check the name.'
+      ? error.message : 'Weather unavailable · Will retry automatically')
+  } finally {
+    clearTimeout(timeout)
+    if (request === weatherRequest) {
+      weatherController = null
+      pendingWeatherCity = ''
+    }
+  }
+}
+
+function clearPersonalData() {
+  cancelWeatherRequest()
+  for (const key of ['name', 'city', 'focus', 'focusDate', 'focusCompleted',
+    'focusHistory', 'weatherCache']) {
+    localStorage.removeItem(key)
+  }
+  nameField.value = ''
+  cityField.value = ''
+  writeEditable(focusField, '')
+  localStorage.setItem('focusDate', localDate(new Date()))
+  renderFocusHistory()
+  renderFocusState()
+  renderEmptyWeather()
+  personalDataStatus.textContent = 'Personal data cleared.'
+  clearDataButton.focus()
+}
+
+for (const [key, placeholder] of [['name', '[Enter Name]'], ['focus', '[Enter Focus]'],
+  ['city', 'Earth']]) {
+  if (localStorage.getItem(key) === placeholder) localStorage.removeItem(key)
+}
+nameField.value = localStorage.getItem('name') || ''
+writeEditable(focusField, localStorage.getItem('focus') || '')
+cityField.value = localStorage.getItem('city') || ''
+gradient.checked = localStorage.getItem('gradient') === 'true'
+blackAndWhite.checked = localStorage.getItem('blackAndWhite') === 'true'
+
+setupEditable(nameField, 'name')
+setupEditable(focusField, 'focus', {
+  multiline: true,
+  onSave(value, previous) {
+    if (value !== previous) localStorage.removeItem('focusCompleted')
+    renderFocusState()
+  },
+  capture: () => localStorage.getItem('focusCompleted'),
+  restore(value) {
+    storeText('focusCompleted', value)
+    renderFocusState()
+  }
+})
+setupEditable(cityField, 'city', { onCommit: () => refreshWeather({ force: true }) })
+focusField.addEventListener('input', resizeFocus)
+
+function startEditing(field) {
+  field.focus()
+  field.setSelectionRange(field.value.length, field.value.length)
+  if (field === focusField) field.scrollTop = field.scrollHeight
+}
+
+editName.addEventListener('click', () => startEditing(nameField))
+editFocus.addEventListener('click', () => startEditing(focusField))
+editCity.addEventListener('click', () => startEditing(cityField))
+
+completeFocus.addEventListener('click', () => {
+  if (!localStorage.getItem('focus')) return
+  const completed = localStorage.getItem('focusCompleted') === 'true'
+  localStorage.setItem('focusCompleted', String(!completed))
+  renderFocusState()
+})
+arrowButtons.forEach((button, index) => button.addEventListener('click', () => {
+  currentWallpaper = (currentWallpaper + (index === 0 ? -1 : 1) + wallpaperCount) % wallpaperCount
+  renderBackground()
+}))
+themeButtons.forEach((button, index) => {
+  button.addEventListener('click', () => {
+    currentTheme = button.dataset.theme
+    localStorage.setItem('theme', currentTheme)
+    renderBackground({ quick: true })
+  })
+  button.addEventListener('keydown', event => {
+    const directions = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }
+    let next = index
+    if (event.key in directions) {
+      next = (index + directions[event.key] + themeButtons.length) % themeButtons.length
+    } else if (event.key === 'Home') next = 0
+    else if (event.key === 'End') next = themeButtons.length - 1
+    else return
+    event.preventDefault()
+    themeButtons[next].focus()
+  })
+})
+settingsButton.addEventListener('click', openThemeSelection)
+closeSettings.addEventListener('click', closeThemeSelection)
+themeDialog.addEventListener('cancel', event => {
+  event.preventDefault()
+  closeThemeSelection()
+})
+themeDialog.addEventListener('click', event => {
+  if (event.target === themeDialog) closeThemeSelection()
+})
+themeDialog.addEventListener('close', () => {
+  document.body.classList.remove('theme-settings-open')
+  settingsButton.setAttribute('aria-expanded', 'false')
+  personalDataStatus.textContent = ''
+  settingsButton.focus()
+})
+resetButton.addEventListener('click', resetAppearance)
+gradient.addEventListener('change', () => {
+  localStorage.setItem('gradient', String(gradient.checked))
+  renderEffects()
+})
+blackAndWhite.addEventListener('change', () => {
+  localStorage.setItem('blackAndWhite', String(blackAndWhite.checked))
+  renderEffects()
+})
+clearDataButton.addEventListener('click', clearPersonalData)
+
+function resumeApp() {
+  if (document.visibilityState === 'hidden') return
+  syncClock(true)
+  refreshWeather()
+}
+document.addEventListener('visibilitychange', resumeApp)
+window.addEventListener('focus', resumeApp)
+window.addEventListener('resize', resizeFocus)
+window.addEventListener('online', () => refreshWeather({ force: true }))
+window.addEventListener('offline', () => {
+  cancelWeatherRequest()
+  const cache = cachedWeather(weatherCity())
+  if (cache) renderWeather(cache, 'Offline')
+  else renderEmptyWeather(weatherCity() ? 'Offline · Weather unavailable' : '')
+})
+
+renderEffects()
+renderFocusHistory()
+renderFocusState()
+syncClock()
+refreshWeather()
+setInterval(syncClock, 1000)
+setInterval(() => refreshWeather({ force: true }), weatherInterval)
+document.querySelectorAll('img').forEach(icon => icon.setAttribute('draggable', 'false'))
